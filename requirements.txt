@@ -1,0 +1,5 @@
+curl-cffi
+structlog
+g4f
+aiohttp
+asyncio
