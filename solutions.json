@@ -1,322 +1,358 @@
 {
   "arrays-ds_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint* reverseArray(int* A, int N) {\n    for(int i = 0; i < N/2; i++) {\n        int temp = A[i];\n        A[i] = A[N - i - 1];\n        A[N - i - 1] = temp;\n    }\n    return A;\n}\n\nint main() {\n    int N;\n    scanf(\"%d\", &N);\n    int *A = (int *)malloc(N * sizeof(int));\n    for(int i = 0; i < N; i++) {\n        scanf(\"%d\", &A[i]);\n    }\n    int *reversed = reverseArray(A, N);\n    for(int i = 0; i < N; i++) {\n        printf(\"%d\", reversed[i]);\n        if(i != N -1) printf(\" \");\n    }\n    free(A);\n    return 0;\n}",
-    "timestamp": 1745746543.856122
+    "timestamp": 1745749722.7541323
   },
   "c-tutorial-basic-data-types_cpp": {
     "code": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    int intValue;\n    long longValue;\n    char charValue;\n    float floatValue;\n    double doubleValue;\n\n    cin >> intValue >> longValue >> charValue >> floatValue >> doubleValue;\n    \n    cout << intValue << endl;\n    cout << longValue << endl;\n    cout << charValue << endl;\n    cout << fixed << setprecision(3) << floatValue << endl;\n    cout << fixed << setprecision(9) << doubleValue << endl;\n\n    return 0;\n}",
-    "timestamp": 1745746547.475159
+    "timestamp": 1745749726.5390801
   },
   "2d-array_c": {
     "code": "#include <stdio.h>\n\nint hourglassSum(int arr[6][6]) {\n    int max_sum = -63; // Minimum possible hourglass sum based on constraints\n    for (int i = 0; i < 4; i++) {\n        for (int j = 0; j < 4; j++) {\n            int current_sum = arr[i][j] + arr[i][j+1] + arr[i][j+2] +\n                              arr[i+1][j+1] +\n                              arr[i+2][j] + arr[i+2][j+1] + arr[i+2][j+2];\n            if (current_sum > max_sum) {\n                max_sum = current_sum;\n            }\n        }\n    }\n    return max_sum;\n}\n\nint main() {\n    int arr[6][6];\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            scanf(\"%d\", &arr[i][j]);\n        }\n    }\n    int result = hourglassSum(arr);\n    printf(\"%d\\n\", result);\n    return 0;\n}",
-    "timestamp": 1745746551.2306957
+    "timestamp": 1745749730.1962786
   },
   "dynamic-array_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    int n, q;\n    scanf(\"%d %d\", &n, &q);\n    int **arr = (int **)malloc(n * sizeof(int*));\n    int *size = (int*)calloc(n, sizeof(int));\n    int *capacity = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        capacity[i] = 4;\n        arr[i] = (int*)malloc(capacity[i] * sizeof(int));\n    }\n    int lastAnswer = 0;\n    int *answers = (int*)malloc(q * sizeof(int));\n    int answerCount = 0;\n    for (int i = 0; i < q; i++) {\n        int type, x, y;\n        scanf(\"%d %d %d\", &type, &x, &y);\n        int idx = (x ^ lastAnswer) % n;\n        if (type == 1) {\n            if (size[idx] == capacity[idx]) {\n                capacity[idx] *= 2;\n                arr[idx] = (int*)realloc(arr[idx], capacity[idx] * sizeof(int));\n            }\n            arr[idx][size[idx]] = y;\n            size[idx]++;\n        } else {\n            int pos = y % size[idx];\n            lastAnswer = arr[idx][pos];\n            answers[answerCount++] = lastAnswer;\n        }\n    }\n    for (int i = 0; i < answerCount; i++) {\n        printf(\"%d\\n\", answers[i]);\n    }\n    for (int i = 0; i < n; i++) {\n        free(arr[i]);\n    }\n    free(arr);\n    free(size);\n    free(capacity);\n    free(answers);\n    return 0;\n}",
-    "timestamp": 1745745365.6229942
+    "timestamp": 1745749738.6592896
   },
   "array-left-rotation_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint* rotateLeft(int d, int arr[], int n) {\n    int *result = (int*) malloc(n * sizeof(int));\n    int rot = d % n;\n    for (int i = 0; i < n; i++) {\n        result[i] = arr[(i + rot) % n];\n    }\n    return result;\n}\n\nint main() {\n    int n, d;\n    scanf(\"%d %d\", &n, &d);\n    int *arr = (int*) malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    int *rotated_arr = rotateLeft(d, arr, n);\n    for (int i = 0; i < n; i++) {\n        printf(\"%d\", rotated_arr[i]);\n        if (i != n - 1) printf(\" \");\n    }\n    printf(\"\\n\");\n    free(arr);\n    free(rotated_arr);\n    return 0;\n}",
-    "timestamp": 1745745369.3237543
+    "timestamp": 1745749778.663174
   },
   "frequency-of-digits-1_c": {
     "code": "#include <stdio.h>\n\nint main() {\n    char num[1001];\n    int freq[10] = {0};\n    \n    scanf(\"%s\", num);\n    \n    for (int i = 0; num[i] != '\\0'; i++) {\n        if (num[i] >= '0' && num[i] <= '9') {\n            freq[num[i] - '0']++;\n        }\n    }\n    \n    for (int i = 0; i < 10; i++) {\n        printf(\"%d \", freq[i]);\n    }\n    \n    return 0;\n}",
-    "timestamp": 1745688543.48343
+    "timestamp": 1745749793.238794
   },
   "recursion-in-c_c": {
     "code": "#include <stdio.h>\n\nint S(int n, int a, int b, int c) {\n    if (n == 1) return a;\n    if (n == 2) return b;\n    if (n == 3) return c;\n    return S(n - 1, a, b, c) + S(n - 2, a, b, c) + S(n - 3, a, b, c);\n}\n\nint main() {\n    int n, a, b, c;\n    scanf(\"%d\", &n);\n    scanf(\"%d %d %d\", &a, &b, &c);\n    printf(\"%d\\n\", S(n, a, b, c));\n    return 0;\n}",
-    "timestamp": 1745688549.6891994
+    "timestamp": 1745749796.955189
   },
   "bitwise-operators-in-c_c": {
     "code": "#include <stdio.h>\n\nint main() {\n    int n, k;\n    scanf(\"%d %d\", &n, &k);\n    int maxAnd = 0, maxOr = 0, maxXor = 0;\n\n    for (int i = 1; i <= n; i++) {\n        for (int j = i + 1; j <= n; j++) {\n            int andRes = i & j;\n            int orRes = i | j;\n            int xorRes = i ^ j;\n            if (andRes < k && andRes > maxAnd) {\n                maxAnd = andRes;\n            }\n            if (orRes < k && orRes > maxOr) {\n                maxOr = orRes;\n            }\n            if (xorRes < k && xorRes > maxXor) {\n                maxXor = xorRes;\n            }\n        }\n    }\n\n    printf(\"%d\\n%d\\n%d\\n\", maxAnd, maxOr, maxXor);\n    return 0;\n}",
-    "timestamp": 1745688614.8034523
+    "timestamp": 1745749868.6321166
   },
   "crush_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nlong arrayManipulation(int n, int q, int queries[][3]) {\n    long *diff = (long *)calloc(n + 2, sizeof(long));\n    for (int i = 0; i < q; i++) {\n        int a = queries[i][0];\n        int b = queries[i][1];\n        int k = queries[i][2];\n        diff[a] += k;\n        if (b + 1 <= n) {\n            diff[b + 1] -= k;\n        }\n    }\n    long max = 0, current = 0;\n    for (int i = 1; i <= n; i++) {\n        current += diff[i];\n        if (current > max) {\n            max = current;\n        }\n    }\n    free(diff);\n    return max;\n}\n\nint main() {\n    int n, q;\n    scanf(\"%d %d\", &n, &q);\n    int (*queries)[3] = malloc(q * sizeof(int[3]));\n    for (int i = 0; i < q; i++) {\n        scanf(\"%d %d %d\", &queries[i][0], &queries[i][1], &queries[i][2]);\n    }\n    printf(\"%ld\\n\", arrayManipulation(n, q, queries));\n    free(queries);\n    return 0;\n}",
-    "timestamp": 1745688618.850579
+    "timestamp": 1745749892.078623
   },
   "mini-max-sum_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nvoid miniMaxSum(int arr[5]) {\n    long long total_sum = 0;\n    int min = arr[0], max = arr[0];\n    for (int i = 0; i < 5; i++) {\n        total_sum += arr[i];\n        if (arr[i] < min) min = arr[i];\n        if (arr[i] > max) max = arr[i];\n    }\n    long long min_sum = total_sum - max;\n    long long max_sum = total_sum - min;\n    printf(\"%lld %lld\\n\", min_sum, max_sum);\n}\n\nint main() {\n    int arr[5];\n    for (int i = 0; i < 5; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    miniMaxSum(arr);\n    return 0;\n}",
-    "timestamp": 1745688635.9076674
+    "timestamp": 1745749895.7675562
   },
   "grading_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint* gradingStudents(int grades[], int n) {\n    for (int i = 0; i < n; i++) {\n        if (grades[i] >= 38) {\n            int nextMultiple = ((grades[i] / 5) + 1) * 5;\n            if (nextMultiple - grades[i] < 3) {\n                grades[i] = nextMultiple;\n            }\n        }\n    }\n    return grades;\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    int *grades = (int *)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &grades[i]);\n    }\n    int *result = gradingStudents(grades, n);\n    for (int i = 0; i < n; i++) {\n        printf(\"%d\\n\", result[i]);\n    }\n    free(grades);\n    return 0;\n}",
-    "timestamp": 1745688663.0602698
+    "timestamp": 1745749920.2243907
   },
   "diagonal-difference_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <math.h>\n\nint diagonalDifference(int** arr, int n) {\n    int leftToRight = 0, rightToLeft = 0;\n    \n    for (int i = 0; i < n; i++) {\n        leftToRight += arr[i][i];\n        rightToLeft += arr[i][n - i - 1];\n    }\n    \n    return abs(leftToRight - rightToLeft);\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    \n    int** arr = (int**)malloc(n * sizeof(int*));\n    for (int i = 0; i < n; i++) {\n        arr[i] = (int*)malloc(n * sizeof(int));\n        for (int j = 0; j < n; j++) {\n            scanf(\"%d\", &arr[i][j]);\n        }\n    }\n    \n    int result = diagonalDifference(arr, n);\n    printf(\"%d\\n\", result);\n    \n    for (int i = 0; i < n; i++) {\n        free(arr[i]);\n    }\n    free(arr);\n    \n    return 0;\n}",
-    "timestamp": 1745688666.8102865
+    "timestamp": 1745749926.4486048
   },
   "plus-minus_c": {
     "code": "#include <stdio.h>\n\nvoid plusMinus(int arr_size, int* arr) {\n    int positive_count = 0, negative_count = 0, zero_count = 0;\n    \n    for (int i = 0; i < arr_size; i++) {\n        if (arr[i] > 0) {\n            positive_count++;\n        } else if (arr[i] < 0) {\n            negative_count++;\n        } else {\n            zero_count++;\n        }\n    }\n    \n    printf(\"%.6f\\n\", (double)positive_count / arr_size);\n    printf(\"%.6f\\n\", (double)negative_count / arr_size);\n    printf(\"%.6f\\n\", (double)zero_count / arr_size);\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    int arr[n];\n    \n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    \n    plusMinus(n, arr);\n    return 0;\n}",
-    "timestamp": 1745688670.4996593
+    "timestamp": 1745749949.557073
   },
   "reverse-array-c_c": {
     "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    int arr[n];\n    for(int i = 0; i < n; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    for(int i = n - 1; i >= 0; i--) {\n        printf(\"%d\", arr[i]);\n        if(i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    return 0;\n}",
-    "timestamp": 1745688605.2779486
+    "timestamp": 1745749845.4440873
   },
   "two-arrays_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint compare(const void *a, const void *b) {\n    return (*(int*)a - *(int*)b);\n}\n\nchar* twoArrays(int k, int A[], int B[], int n) {\n    qsort(A, n, sizeof(int), compare);\n    qsort(B, n, sizeof(int), compare);\n    for (int i = 0; i < n; i++) {\n        if (A[i] + B[n - 1 - i] < k) {\n            return \"NO\";\n        }\n    }\n    return \"YES\";\n}\n\nint main() {\n    int q;\n    scanf(\"%d\", &q);\n    for (int _ = 0; _ < q; _++) {\n        int n, k;\n        scanf(\"%d %d\", &n, &k);\n        int *A = (int*) malloc(n * sizeof(int));\n        int *B = (int*) malloc(n * sizeof(int));\n        for (int i = 0; i < n; i++) {\n            scanf(\"%d\", &A[i]);\n        }\n        for (int i = 0; i < n; i++) {\n            scanf(\"%d\", &B[i]);\n        }\n        printf(\"%s\\n\", twoArrays(k, A, B, n));\n        free(A);\n        free(B);\n    }\n    return 0;\n}",
-    "timestamp": 1745688601.4372883
+    "timestamp": 1745749841.6659923
   },
   "solve-me-first_c": {
     "code": "#include <stdio.h>\n\nint solveMeFirst(int a, int b) {\n    return a + b;\n}\n\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    printf(\"%d\\n\", solveMeFirst(a, b));\n    return 0;\n}",
-    "timestamp": 1745680263.4150965
+    "timestamp": 1745749958.5443184
   },
   "birthday-cake-candles_c": {
     "code": "#include <stdio.h>\n\nint birthdayCakeCandles(int candles[], int n) {\n    int max_height = 0;\n    int count = 0;\n    for(int i = 0; i < n; i++) {\n        if(candles[i] > max_height) {\n            max_height = candles[i];\n            count = 1;\n        } else if(candles[i] == max_height) {\n            count++;\n        }\n    }\n    return count;\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    int candles[n];\n    for(int i = 0; i < n; i++) {\n        scanf(\"%d\", &candles[i]);\n    }\n    printf(\"%d\\n\", birthdayCakeCandles(candles, n));\n    return 0;\n}",
-    "timestamp": 1745680267.242603
+    "timestamp": 1745749983.7494142
   },
   "counting-valleys_c": {
     "code": "#include <stdio.h>\n\nint countingValleys(int steps, char* path) {\n    int sea_level = 0, current_level = 0, valleys = 0;\n    \n    for (int i = 0; i < steps; i++) {\n        if (path[i] == 'U') {\n            current_level++;\n        } else if (path[i] == 'D') {\n            current_level--;\n        }\n\n        if (current_level == sea_level && path[i] == 'U') {\n            valleys++;\n        }\n    }\n    \n    return valleys;\n}\n\nint main() {\n    int steps;\n    scanf(\"%d\", &steps);\n    char path[steps + 1];\n    scanf(\"%s\", path);\n    \n    int result = countingValleys(steps, path);\n    printf(\"%d\\n\", result);\n    \n    return 0;\n}",
-    "timestamp": 1745680272.6240346
+    "timestamp": 1745750008.1165278
   },
   "recursive-digit-sum_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    char n[100001];\n    int k;\n    scanf(\"%s %d\", n, &k);\n\n    long long total_sum = 0;\n    for (int i = 0; n[i] != '\\0'; i++) {\n        total_sum += n[i] - '0';\n    }\n    total_sum *= k;\n\n    while (total_sum >= 10) {\n        long long temp = 0;\n        while (total_sum > 0) {\n            temp += total_sum % 10;\n            total_sum /= 10;\n        }\n        total_sum = temp;\n    }\n\n    printf(\"%lld\\n\", total_sum);\n    return 0;\n}",
-    "timestamp": 1745688693.8707523
+    "timestamp": 1745749953.2311473
   },
   "circular-array-rotation_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    int n, k, q;\n    scanf(\"%d %d %d\", &n, &k, &q);\n    int *a = (int*) malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &a[i]);\n    }\n    k = k % n;\n    int *queries = (int*) malloc(q * sizeof(int));\n    for (int i = 0; i < q; i++) {\n        scanf(\"%d\", &queries[i]);\n    }\n    for (int i = 0; i < q; i++) {\n        int index = (queries[i] - k + n) % n;\n        printf(\"%d\\n\", a[index]);\n    }\n    free(a);\n    free(queries);\n    return 0;\n}",
-    "timestamp": 1745680322.288075
+    "timestamp": 1745750036.2290812
   },
   "halloween-sale_c": {
     "code": "#include <stdio.h>\n\nint howManyGames(int p, int d, int m, int s) {\n    int count = 0;\n    int currentPrice = p;\n\n    while (s >= currentPrice) {\n        count++;\n        s -= currentPrice;\n        currentPrice -= d;\n        if (currentPrice < m) {\n            currentPrice = m;\n        }\n    }\n\n    return count;\n}\n\nint main() {\n    int p, d, m, s;\n    scanf(\"%d %d %d %d\", &p, &d, &m, &s);\n    printf(\"%d\\n\", howManyGames(p, d, m, s));\n    return 0;\n}",
-    "timestamp": 1745680325.0944757
+    "timestamp": 1745750042.2107108
   },
   "simple-text-editor_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\ntypedef struct {\n    char *data;\n    int size;\n} EditorState;\n\nEditorState *createState() {\n    EditorState *state = malloc(sizeof(EditorState));\n    state->data = malloc(1);\n    state->data[0] = '\\0';\n    state->size = 0;\n    return state;\n}\n\nvoid freeState(EditorState *state) {\n    free(state->data);\n    free(state);\n}\n\nvoid append(EditorState *state, const char *W) {\n    int len = strlen(W);\n    state->data = realloc(state->data, state->size + len + 1);\n    strcpy(state->data + state->size, W);\n    state->size += len;\n}\n\nvoid delete(EditorState *state, int k) {\n    if (k > state->size) {\n        k = state->size;\n    }\n    state->size -= k;\n    state->data[state->size] = '\\0';\n}\n\nchar printChar(EditorState *state, int k) {\n    return state->data[k - 1];\n}\n\nvoid undo(EditorState **history, int *top, EditorState *current) {\n    if (*top >= 1) {\n        EditorState *prevState = history[--(*top)];\n        free(current->data);\n        current->data = prevState->data;\n        current->size = prevState->size;\n        free(prevState);\n    }\n}\n\nint main() {\n    int Q;\n    scanf(\"%d\", &Q);\n    EditorState *current = createState();\n    EditorState **history = malloc(Q * sizeof(EditorState *));\n    int top = 0;\n\n    for (int i = 0; i < Q; i++) {\n        int operationType;\n        scanf(\"%d\", &operationType);\n        \n        if (operationType == 1) { // append(W)\n            char W[1000001]; // Assuming W max length is 1000000\n            scanf(\"%s\", W);\n            history[top++] = createState();\n            history[top - 1]->data = malloc(current->size + 1);\n            strcpy(history[top - 1]->data, current->data);\n            history[top - 1]->size = current->size;\n            append(current, W);\n        } else if (operationType == 2) { // delete(k)\n            int k;\n            scanf(\"%d\", &k);\n            history[top++] = createState();\n            history[top - 1]->data = malloc(current->size + 1);\n            strcpy(history[top - 1]->data, current->data);\n            history[top - 1]->size = current->size;\n            delete(current, k);\n        } else if (operationType == 3) { // print(k)\n            int k;\n            scanf(\"%d\", &k);\n            printf(\"%c\\n\", printChar(current, k));\n        } else if (operationType == 4) { // undo()\n            undo(history, &top, current);\n        }\n    }\n\n    freeState(current);\n    for (int i = 0; i < top; i++) {\n        freeState(history[i]);\n    }\n    free(history);\n    \n    return 0;\n}",
-    "timestamp": 1745680378.5764186
+    "timestamp": 1745750072.3561172
   },
   "staircase_c": {
     "code": "#include <stdio.h>\n\nvoid staircase(int n) {\n    for (int i = 1; i <= n; i++) {\n        for (int j = 1; j <= n - i; j++) {\n            printf(\" \");\n        }\n        for (int k = 1; k <= i; k++) {\n            printf(\"#\");\n        }\n        printf(\"\\n\");\n    }\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    staircase(n);\n    return 0;\n}",
-    "timestamp": 1745680379.0706565
+    "timestamp": 1745749987.4583578
   },
   "cats-and-a-mouse_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nconst char* catAndMouse(int x, int y, int z) {\n    int distA = abs(z - x);\n    int distB = abs(z - y);\n    if (distA < distB) {\n        return \"Cat A\";\n    } else if (distB < distA) {\n        return \"Cat B\";\n    } else {\n        return \"Mouse C\";\n    }\n}\n\nint main() {\n    int q, x, y, z;\n    scanf(\"%d\", &q);\n    for(int i = 0; i < q; i++) {\n        scanf(\"%d %d %d\", &x, &y, &z);\n        printf(\"%s\\n\", catAndMouse(x, y, z));\n    }\n    return 0;\n}",
-    "timestamp": 1745680379.244341
+    "timestamp": 1745749979.9169755
   },
   "extra-long-factorials_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nvoid multiply(int x, int res[], int *res_size) {\n    int carry = 0;\n    for (int i = 0; i < *res_size; i++) {\n        int prod = res[i] * x + carry;\n        res[i] = prod % 10;\n        carry = prod / 10;\n    }\n    while (carry) {\n        res[*res_size] = carry % 10;\n        carry /= 10;\n        (*res_size)++;\n    }\n}\n\nvoid extraLongFactorials(int n) {\n    int res[500] = {0};\n    res[0] = 1;\n    int res_size = 1;\n\n    for (int x = 2; x <= n; x++) {\n        multiply(x, res, &res_size);\n    }\n\n    for (int i = res_size - 1; i >= 0; i--) {\n        printf(\"%d\", res[i]);\n    }\n    printf(\"\\n\");\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    extraLongFactorials(n);\n    return 0;\n}",
-    "timestamp": 1745680389.5493033
+    "timestamp": 1745750065.1333084
   },
   "largest-rectangle_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nlong largestRectangle(int* h, int n) {\n    long maxArea = 0;\n    int *stack = (int *)malloc(n * sizeof(int));\n    int top = -1;\n\n    for (int i = 0; i <= n; i++) {\n        int currentHeight = (i == n) ? 0 : h[i];\n        while (top != -1 && h[stack[top]] > currentHeight) {\n            int height = h[stack[top--]];\n            int width = (top == -1) ? i : i - stack[top] - 1;\n            long area = height * width;\n            if (area > maxArea) {\n                maxArea = area;\n            }\n        }\n        stack[++top] = i;\n    }\n\n    free(stack);\n    return maxArea;\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    int *h = (int *)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &h[i]);\n    }\n    printf(\"%ld\\n\", largestRectangle(h, n));\n    free(h);\n    return 0;\n}",
-    "timestamp": 1745680478.1186724
+    "timestamp": 1745750092.9925158
   },
   "queue-using-two-stacks_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\ntypedef struct Stack {\n    long long *arr;\n    int top;\n    int capacity;\n} Stack;\n\nvoid initStack(Stack *s, int capacity) {\n    s->arr = (long long *)malloc(sizeof(long long) * capacity);\n    s->top = -1;\n    s->capacity = capacity;\n}\n\nvoid push(Stack *s, long long val) {\n    if (s->top + 1 == s->capacity) {\n        s->capacity *= 2;\n        s->arr = (long long *)realloc(s->arr, sizeof(long long) * s->capacity);\n    }\n    s->arr[++s->top] = val;\n}\n\nlong long pop(Stack *s) {\n    return s->arr[s->top--];\n}\n\nlong long peek(Stack *s) {\n    return s->arr[s->top];\n}\n\nint main() {\n    int q;\n    scanf(\"%d\", &q);\n    Stack enqStack, deqStack;\n    initStack(&enqStack, 1024);\n    initStack(&deqStack, 1024);\n\n    for (int i = 0; i < q; i++) {\n        int type;\n        scanf(\"%d\", &type);\n        if (type == 1) {\n            long long x;\n            scanf(\"%lld\", &x);\n            push(&enqStack, x);\n        } else if (type == 2) {\n            if (deqStack.top == -1) {\n                while (enqStack.top != -1) {\n                    push(&deqStack, pop(&enqStack));\n                }\n            }\n            pop(&deqStack);\n        } else if (type == 3) {\n            if (deqStack.top == -1) {\n                while (enqStack.top != -1) {\n                    push(&deqStack, pop(&enqStack));\n                }\n            }\n            printf(\"%lld\\n\", peek(&deqStack));\n        }\n    }\n\n    free(enqStack.arr);\n    free(deqStack.arr);\n    return 0;\n}",
-    "timestamp": 1745680496.0924597
+    "timestamp": 1745750100.2702453
   },
   "string-similarity_c": {
     "code": "#include <stdio.h>\n#include <string.h>\n\nlong long calculateSimilarity(char* s) {\n    int n = strlen(s);\n    long long totalSimilarity = 0;\n    int z[n];\n    z[0] = 0;\n    \n    for (int i = 1, l = 0, r = 0; i < n; i++) {\n        if (i > r) {\n            l = r = i;\n            while (r < n && s[r] == s[r - l]) r++;\n            z[i] = r - l;\n            r--;\n        } else {\n            int k = i - l;\n            if (z[k] < r - i + 1) {\n                z[i] = z[k];\n            } else {\n                l = i;\n                while (r < n && s[r] == s[r - l]) r++;\n                z[i] = r - l;\n                r--;\n            }\n        }\n        totalSimilarity += z[i];\n    }\n\n    return totalSimilarity + n; // adding n for the string itself\n}\n\nint main() {\n    int t;\n    scanf(\"%d\", &t);\n    \n    while (t--) {\n        char s[100001];\n        scanf(\"%s\", s);\n        printf(\"%lld\\n\", calculateSimilarity(s));\n    }\n    \n    return 0;\n}",
-    "timestamp": 1745688512.4937265
+    "timestamp": 1745749782.3830159
   },
   "electronics-shop_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint getMoneySpent(int keyboards[], int n, int drives[], int m, int b) {\n    int max_spent = -1;\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < m; j++) {\n            int total = keyboards[i] + drives[j];\n            if (total <= b && total > max_spent) {\n                max_spent = total;\n            }\n        }\n    }\n    return max_spent;\n}\n\nint main() {\n    int b, n, m;\n    scanf(\"%d %d %d\", &b, &n, &m);\n    int *keyboards = (int*) malloc(n * sizeof(int));\n    int *drives = (int*) malloc(m * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &keyboards[i]);\n    }\n    for (int i = 0; i < m; i++) {\n        scanf(\"%d\", &drives[i]);\n    }\n    printf(\"%d\\n\", getMoneySpent(keyboards, n, drives, m, b));\n    free(keyboards);\n    free(drives);\n    return 0;\n}",
-    "timestamp": 1745682005.7977438
+    "timestamp": 1745750011.8157465
   },
   "angry-professor_c": {
     "code": "#include <stdio.h>\n\nvoid angryProfessor(int k, int a[], int n) {\n    int on_time_count = 0;\n    for (int i = 0; i < n; i++) {\n        if (a[i] <= 0) {\n            on_time_count++;\n        }\n    }\n    if (on_time_count < k) {\n        printf(\"YES\\n\");\n    } else {\n        printf(\"NO\\n\");\n    }\n}\n\nint main() {\n    int t;\n    scanf(\"%d\", &t);\n    while (t--) {\n        int n, k;\n        scanf(\"%d %d\", &n, &k);\n        int a[n];\n        for (int i = 0; i < n; i++) {\n            scanf(\"%d\", &a[i]);\n        }\n        angryProfessor(k, a, n);\n    }\n    return 0;\n}",
-    "timestamp": 1745682084.9200604
+    "timestamp": 1745750015.605366
   },
   "power-calculation_c": {
     "code": "#include <stdio.h>\n#include <stdint.h>\n\nconst int MOD = 100;\n\nuint64_t mod_pow(uint64_t base, uint64_t exp, uint64_t mod) {\n    uint64_t result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = (result * base) % mod;\n        base = (base * base) % mod;\n        exp >>= 1;\n    }\n    return result;\n}\n\nuint64_t calculate_sum(uint64_t K, uint64_t N) {\n    uint64_t sum = 0;\n    uint64_t full_cycles = K / 100;\n    uint64_t remainder = K % 100;\n\n    for (uint64_t i = 1; i <= 100; i++) {\n        sum = (sum + mod_pow(i, N, MOD)) % MOD;\n    }\n    sum = (sum * full_cycles) % MOD;\n\n    for (uint64_t i = 1; i <= remainder; i++) {\n        sum = (sum + mod_pow(i, N, MOD)) % MOD;\n    }\n\n    return sum;\n}\n\nint main() {\n    int T;\n    scanf(\"%d\", &T);\n    for (int t = 0; t < T; t++) {\n        uint64_t K, N;\n        scanf(\"%llu %llu\", &K, &N);\n        uint64_t result = calculate_sum(K, N);\n        printf(\"%02llu\\n\", result);\n    }\n    return 0;\n}",
-    "timestamp": 1745688568.4234736
+    "timestamp": 1745749836.969911
   },
   "maximum-element_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\ntypedef struct {\n    long long value;\n    long long max;\n} StackNode;\n\ntypedef struct {\n    StackNode *data;\n    int top;\n    int capacity;\n} Stack;\n\nvoid initStack(Stack *s, int capacity) {\n    s->data = (StackNode*) malloc(sizeof(StackNode) * capacity);\n    s->top = -1;\n    s->capacity = capacity;\n}\n\nvoid push(Stack *s, long long val) {\n    if (s->top + 1 == s->capacity) {\n        s->capacity *= 2;\n        s->data = (StackNode*) realloc(s->data, sizeof(StackNode) * s->capacity);\n    }\n    long long maxVal = val;\n    if (s->top >= 0 && s->data[s->top].max > maxVal) {\n        maxVal = s->data[s->top].max;\n    }\n    s->top++;\n    s->data[s->top].value = val;\n    s->data[s->top].max = maxVal;\n}\n\nvoid pop(Stack *s) {\n    if (s->top >= 0) {\n        s->top--;\n    }\n}\n\nlong long getMax(Stack *s) {\n    if (s->top >= 0)\n        return s->data[s->top].max;\n    return -1;\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    Stack stack;\n    initStack(&stack, 1024);\n    for (int i = 0; i < n; i++) {\n        int cmd;\n        scanf(\"%d\", &cmd);\n        if (cmd == 1) {\n            long long x;\n            scanf(\"%lld\", &x);\n            push(&stack, x);\n        } else if (cmd == 2) {\n            pop(&stack);\n        } else if (cmd == 3) {\n            printf(\"%lld\\n\", getMax(&stack));\n        }\n    }\n    free(stack.data);\n    return 0;\n}",
-    "timestamp": 1745682436.0957816
+    "timestamp": 1745750068.7283762
   },
   "balanced-brackets_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nchar* isBalanced(char* s) {\n    int len = strlen(s);\n    char* stack = (char*)malloc(len + 1);\n    int top = -1;\n\n    for (int i = 0; i < len; i++) {\n        char ch = s[i];\n\n        if (ch == '{' || ch == '(' || ch == '[') {\n            stack[++top] = ch;\n        } else {\n            if (top == -1) {\n                free(stack);\n                return \"NO\";\n            }\n            char popped = stack[top--];\n            if ((ch == '}' && popped != '{') || \n                (ch == ')' && popped != '(') || \n                (ch == ']' && popped != '[')) {\n                free(stack);\n                return \"NO\";\n            }\n        }\n    }\n    \n    free(stack);\n    return (top == -1) ? \"YES\" : \"NO\";\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    \n    for (int i = 0; i < n; i++) {\n        char s[1001];\n        scanf(\"%s\", s);\n        printf(\"%s\\n\", isBalanced(s));\n    }\n    \n    return 0;\n}",
-    "timestamp": 1745682447.46694
+    "timestamp": 1745750096.578754
   },
   "angry-children_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint compare(const void *a, const void *b) {\n    return (*(int*)a - *(int*)b);\n}\n\nint maxMin(int k, int arr_count, int* arr) {\n    qsort(arr, arr_count, sizeof(int), compare);\n    int min_unfairness = arr[arr_count - 1] - arr[0];\n    \n    for (int i = 0; i <= arr_count - k; i++) {\n        int unfairness = arr[i + k - 1] - arr[i];\n        if (unfairness < min_unfairness) {\n            min_unfairness = unfairness;\n        }\n    }\n    \n    return min_unfairness;\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    int *arr = malloc(n * sizeof(int));\n    int k;\n    scanf(\"%d\", &k);\n    \n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    \n    int result = maxMin(k, n, arr);\n    printf(\"%d\\n\", result);\n\n    free(arr);\n    return 0;\n}",
-    "timestamp": 1745682458.1612482
+    "timestamp": 1745750140.213892
   },
   "time-conversion_c": {
     "code": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n\nchar* timeConversion(const char* s) {\n    static char result[9];\n    int hour = (s[0] - '0') * 10 + (s[1] - '0');\n    int minute = (s[3] - '0') * 10 + (s[4] - '0');\n    int second = (s[6] - '0') * 10 + (s[7] - '0');\n\n    int isPM = (s[8] == 'P');\n\n    if (hour == 12) {\n        hour = isPM ? 12 : 0;\n    } else {\n        if (isPM) {\n            hour += 12;\n        }\n    }\n\n    snprintf(result, sizeof(result), \"%02d:%02d:%02d\", hour, minute, second);\n    return result;\n}\n\nint main() {\n    char input[15];\n    scanf(\"%s\", input);\n    printf(\"%s\\n\", timeConversion(input));\n    return 0;\n}",
-    "timestamp": 1745688659.0856879
+    "timestamp": 1745749899.577149
   },
   "hello-world-15-5_java": {
     "code": "public class Solution {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}",
-    "timestamp": 1745687305.8414223
+    "timestamp": 1745777894.1646113
   },
   "calculate-area-of-a-rectangle-1_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        double length = scanner.nextDouble();\n        double width = scanner.nextDouble();\n        double area = length * width;\n        System.out.printf(\"%.1f\\n\", area);\n    }\n}",
-    "timestamp": 1745687309.604782
+    "timestamp": 1745777898.0090563
   },
   "calculate-sum-of-two-numbers-day-2_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int a = scanner.nextInt();\n        int b = scanner.nextInt();\n        scanner.close();\n        System.out.println(a + b);\n    }\n}",
-    "timestamp": 1745687340.102527
+    "timestamp": 1745777901.7085962
   },
   "calculate-product-of-two-numbers-day-2_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        long a = scanner.nextLong();\n        long b = scanner.nextLong();\n        scanner.close();\n        System.out.println(a * b);\n    }\n}",
-    "timestamp": 1745687343.7928889
+    "timestamp": 1745777905.376993
   },
   "user-input-and-printing-day-3_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int number = scanner.nextInt();\n        System.out.println(number);\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687368.658033
+    "timestamp": 1745777909.0392356
   },
   "user-input-and-printing-day-4_java": {
     "code": "import java.util.Scanner;\n\npublic class SumOfTwoIntegers {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int a = scanner.nextInt();\n        int b = scanner.nextInt();\n        int sum = a + b;\n        System.out.println(sum);\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687462.229545
+    "timestamp": 1745777960.2037876
   },
   "area-of-a-triangle-day-4_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        double base = scanner.nextDouble();\n        double height = scanner.nextDouble();\n        double area = 0.5 * base * height;\n        System.out.println(area);\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687466.059399
+    "timestamp": 1745777980.8361382
   },
   "convert-a-float-to-an-integer-day-5_java": {
     "code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        float inputFloat = scanner.nextFloat();\n        int convertedInt = (int) inputFloat;\n        System.out.println(convertedInt);\n    }\n}",
-    "timestamp": 1745687488.6327353
+    "timestamp": 1745777984.6689694
   },
   "calculate-the-area-of-a-circle-day-5_java": {
     "code": "import java.util.Scanner;\n\npublic class CircleAreaCalculator {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        double radius = scanner.nextDouble();\n        double area = 3.14 * radius * radius;\n        System.out.println(area);\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687492.3604357
+    "timestamp": 1745778007.7898061
   },
   "check-if-a-number-is-positive-or-negative-day-6_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        if (n > 0) {\n            System.out.println(\"Positive\");\n        } else if (n < 0) {\n            System.out.println(\"Negative\");\n        } else {\n            System.out.println(\"Zero\");\n        }\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687518.5118933
+    "timestamp": 1745778011.4303243
   },
   "check-if-a-year-is-a-leap-year-day-6_java": {
     "code": "import java.util.Scanner;\n\npublic class LeapYearChecker {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int y = scanner.nextInt();\n        if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {\n            System.out.println(\"Leap Year\");\n        } else {\n            System.out.println(\"Not Leap Year\");\n        }\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687549.2052526
+    "timestamp": 1745778015.126823
   },
   "check-if-a-number-is-even-or-odd-using-logical-operators-day-7_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        if (n % 2 == 0) {\n            System.out.println(\"Even\");\n        } else {\n            System.out.println(\"Odd\");\n        }\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687582.9629984
+    "timestamp": 1745778038.7521918
   },
   "calculate-compound-interest-day-7_c": {
     "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    double P, R, T, A;\n    scanf(\"%lf %lf %lf\", &P, &R, &T);\n    A = P * pow((1 + R / 100), T);\n    printf(\"%.2f\\n\", A);\n    return 0;\n}",
-    "timestamp": 1745687612.9162495
+    "timestamp": 1745778042.6734395
   },
   "check-if-a-number-is-even-or-odd-and-print-the-result-day-9_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        if (n % 2 == 0) {\n            System.out.println(\"Even\");\n        } else {\n            System.out.println(\"Odd\");\n        }\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687762.923673
+    "timestamp": 1745778097.393618
   },
   "implement-a-simple-calculator-using-a-switch-statement-day-10_java": {
     "code": "import java.util.Scanner;\n\npublic class SimpleCalculator {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        double num1 = scanner.nextDouble();\n        char operator = scanner.next().charAt(0);\n        double num2 = scanner.nextDouble();\n        double result = 0;\n        boolean validOperation = true;\n\n        switch (operator) {\n            case '+':\n                result = num1 + num2;\n                break;\n            case '-':\n                result = num1 - num2;\n                break;\n            case '*':\n                result = num1 * num2;\n                break;\n            case '/':\n                if (num2 != 0) {\n                    result = num1 / num2;\n                } else {\n                    System.out.println(\"Error: Division by zero\");\n                    validOperation = false;\n                }\n                break;\n            case '%':\n                if (num2 != 0) {\n                    result = num1 % num2;\n                } else {\n                    System.out.println(\"Error: Division by zero\");\n                    validOperation = false;\n                }\n                break;\n            default:\n                System.out.println(\"Error: Invalid operator\");\n                validOperation = false;\n        }\n\n        if (validOperation) {\n            System.out.println(result);\n        }\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687883.7717369
+    "timestamp": 1745778128.01665
   },
   "print-numbers-from-1-to-10-using-a-while-loop-day-11_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static void main(String[] args) {\n        int i = 1;\n        while (i <= 10) {\n            System.out.println(i);\n            i++;\n        }\n    }\n}",
-    "timestamp": 1745687887.5460346
+    "timestamp": 1745778131.848817
   },
   "find-the-sum-of-the-first-n-natural-numbers-using-a-while-loop-day-11_java": {
     "code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        long N = scanner.nextLong();\n        long sum = 0;\n        long i = 1;\n        while (i <= N) {\n            sum += i;\n            i++;\n        }\n        System.out.println(sum);\n    }\n}",
-    "timestamp": 1745687908.9625912
+    "timestamp": 1745778155.197207
   },
   "print-a-square-pattern-of-asterisks-using-a-for-loop-day-12_java": {
     "code": "import java.util.Scanner;\n\npublic class SquarePattern {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                System.out.print(\"*\");\n            }\n            System.out.println();\n        }\n        scanner.close();\n    }\n}",
-    "timestamp": 1745687912.590185
+    "timestamp": 1745778159.075317
   },
   "reverse-a-given-number-using-a-for-loop-day-12_java": {
-    "code": "import java.util.Scanner;\n\npublic class ReverseNumber {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int num = scanner.nextInt();\n        int reversed = 0;\n        int originalNum = num;\n        int sign = num < 0 ? -1 : 1;\n        num = Math.abs(num);\n\n        for (; num != 0; num /= 10) {\n            int digit = num % 10;\n            reversed = reversed * 10 + digit;\n        }\n\n        System.out.println(sign * reversed);\n    }\n}",
-    "timestamp": 1745687938.4785154
+    "code": "import java.util.Scanner;\n\npublic class NumberReverser {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        long num = scanner.nextLong();\n        scanner.close();\n        \n        long reversed = reverseNumber(num);\n        System.out.println(reversed);\n    }\n    \n    public static long reverseNumber(long num) {\n        boolean isNegative = num < 0;\n        num = Math.abs(num);\n        \n        long reversed = 0;\n        for (; num > 0; num /= 10) {\n            long digit = num % 10;\n            reversed = reversed * 10 + digit;\n        }\n        \n        return isNegative ? -reversed : reversed;\n    }\n}",
+    "timestamp": 1745778182.0980878
   },
   "reverse-a-given-string-day-13_java": {
     "code": "import java.util.Scanner;\n\npublic class ReverseString {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String inputStr = scanner.nextLine();\n        String reversedStr = new StringBuilder(inputStr).reverse().toString();\n        System.out.println(reversedStr);\n    }\n}",
-    "timestamp": 1745687942.2306943
+    "timestamp": 1745778185.836682
   },
   "check-if-a-number-is-prime-using-a-for-loop-day-13_java": {
     "code": "import java.util.Scanner;\n\npublic class PrimeChecker {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int num = scanner.nextInt();\n        scanner.close();\n        if (isPrime(num)) {\n            System.out.println(\"Prime\");\n        } else {\n            System.out.println(\"Not Prime\");\n        }\n    }\n\n    public static boolean isPrime(int num) {\n        if (num <= 1) return false;\n        if (num <= 3) return true;\n        if (num % 2 == 0 || num % 3 == 0) return false;\n        for (int i = 5; i * i <= num; i += 6) {\n            if (num % i == 0 || num % (i + 2) == 0) return false;\n        }\n        return true;\n    }\n}",
-    "timestamp": 1745687945.8945885
+    "timestamp": 1745778189.43884
   },
   "calculate-the-factorial-of-a-number-using-a-do-while-loop-day-14_java": {
     "code": "import java.util.Scanner;\n\npublic class FactorialCalculator {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int num = scanner.nextInt();\n        int factorial = 1;\n        int i = 1;\n        do {\n            factorial *= i;\n            i++;\n        } while (i <= num);\n        System.out.println(factorial);\n    }\n}",
-    "timestamp": 1745687973.4151318
+    "timestamp": 1745778212.7056038
   },
   "find-the-sum-of-prime-numbers-in-a-given-range-using-a-do-while-loop-day-14_java": {
     "code": "import java.util.Scanner;\n\npublic class PrimeSumCalculator {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int start = scanner.nextInt();\n        int end = scanner.nextInt();\n        scanner.close();\n\n        int sum = 0;\n        int number = start;\n        do {\n            if (isPrime(number)) {\n                sum += number;\n            }\n            number++;\n        } while (number <= end);\n\n        System.out.println(sum);\n    }\n\n    private static boolean isPrime(int num) {\n        if (num <= 1) return false;\n        if (num == 2) return true;\n        if (num % 2 == 0) return false;\n        for (int i = 3; i <= Math.sqrt(num); i += 2) {\n            if (num % i == 0) return false;\n        }\n        return true;\n    }\n}",
-    "timestamp": 1745687977.1925273
+    "timestamp": 1745778216.4910707
   },
   "print-the-fibonacci-series-up-to-a-given-number-using-a-for-loop-day-15_java": {
     "code": "import java.util.Scanner;\n\npublic class FibonacciSeries {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int num = scanner.nextInt();\n        int first = 0, second = 1;\n        if (num >= 0) System.out.print(first);\n        if (num >= 1) System.out.print(\" \" + second);\n        for (int i = 2; ; i++) {\n            int next = first + second;\n            if (next > num) break;\n            System.out.print(\" \" + next);\n            first = second;\n            second = next;\n        }\n    }\n}",
-    "timestamp": 1745688002.3472667
+    "timestamp": 1745778239.644993
   },
   "find-all-prime-numbers-in-a-given-range-using-a-for-loop-day-15_java": {
     "code": "import java.util.Scanner;\n\npublic class PrimeNumbersInRange {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int start = scanner.nextInt();\n        int end = scanner.nextInt();\n        for (int i = start; i <= end; i++) {\n            if (isPrime(i)) {\n                System.out.print(i + \" \");\n            }\n        }\n    }\n\n    public static boolean isPrime(int number) {\n        if (number <= 1) {\n            return false;\n        }\n        for (int i = 2; i <= Math.sqrt(number); i++) {\n            if (number % i == 0) {\n                return false;\n            }\n        }\n        return true;\n    }\n}",
-    "timestamp": 1745688006.4445338
+    "timestamp": 1745778243.257671
   },
   "print-a-simple-right-angled-triangle-pattern-of-asterisks-day-17_c": {
     "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 1; i <= n; i++) {\n        for (int j = 1; j <= i; j++) {\n            printf(\"*\");\n        }\n        printf(\"\\n\");\n    }\n    return 0;\n}",
-    "timestamp": 1745688063.509207
+    "timestamp": 1745778337.3593047
   },
   "print-a-hollow-square-pattern-of-asterisks-day-17_c": {
     "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            if (i == 0 || i == n - 1 || j == 0 || j == n - 1) {\n                printf(\"*\");\n            } else {\n                printf(\" \");\n            }\n        }\n        printf(\"\\n\");\n    }\n    return 0;\n}",
-    "timestamp": 1745688067.332834
+    "timestamp": 1745778341.201593
   },
   "print-an-inverted-right-angled-triangle-pattern-of-asterisks-day-18_java": {
     "code": "import java.util.Scanner;\n\npublic class InvertedTrianglePattern {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        for (int i = n; i > 0; i--) {\n            for (int j = 0; j < i; j++) {\n                System.out.print(\"*\");\n            }\n            System.out.println();\n        }\n        scanner.close();\n    }\n}",
-    "timestamp": 1745688088.8865511
+    "timestamp": 1745778364.2126524
   },
   "write-a-java-program-to-print-a-half-pyramid-pattern-of-numbers-_java": {
     "code": "import java.util.Scanner;\n\npublic class HalfPyramidPattern {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j <= i; j++) {\n                System.out.print(j);\n            }\n            System.out.println();\n        }\n        scanner.close();\n    }\n}",
-    "timestamp": 1745688122.7448652
+    "timestamp": 1745778414.349436
   },
   "write-a-java-program-to-print-a-character-pattern-day-19_java": {
     "code": "import java.util.Scanner;\n\npublic class CharacterPattern {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        scanner.close();\n        \n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j <= i; j++) {\n                System.out.print((char) ('A' + j));\n            }\n            System.out.println();\n        }\n    }\n}",
-    "timestamp": 1745688126.6213522
+    "timestamp": 1745778417.995684
   },
   "java-function-to-find-the-factorial-of-a-number-day-21_c": {
     "code": "#include <stdio.h>\n\nint calculateFactorial(int n) {\n    if (n < 0) return -1; // Return -1 for negative input as factorial is not defined\n    int result = 1;\n    for (int i = 1; i <= n; i++) {\n        result *= i;\n    }\n    return result;\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    printf(\"%d\\n\", calculateFactorial(n));\n    return 0;\n}",
-    "timestamp": 1745688178.8537488
+    "timestamp": 1745778455.7594326
   },
   "java-function-to-find-the-sum-of-two-integers_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    int calculateSum(int a, int b) {\n        return a + b;\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int a = scanner.nextInt();\n        int b = scanner.nextInt();\n        Solution solution = new Solution();\n        System.out.println(solution.calculateSum(a, b));\n        scanner.close();\n    }\n}",
-    "timestamp": 1745688209.34531
+    "timestamp": 1745778480.3632233
   },
   "java-function-to-calculate-the-binomial-coefficient-n-choose-k-_c": {
     "code": "#include <stdio.h>\n\nint calculateBinomialCoefficient(int n, int k) {\n    if (k > n - k) {\n        k = n - k;\n    }\n    int res = 1;\n    for (int i = 0; i < k; ++i) {\n        res *= (n - i);\n        res /= (i + 1);\n    }\n    return res;\n}\n\nint main() {\n    int n, k;\n    scanf(\"%d %d\", &n, &k);\n    printf(\"%d\\n\", calculateBinomialCoefficient(n, k));\n    return 0;\n}",
-    "timestamp": 1745688213.143957
+    "timestamp": 1745778484.0332623
   },
   "write-a-java-program-to-find-all-prime-numbers-in-a-given-range-using-a-userdefined-function-day-23_java": {
     "code": "import java.util.Scanner;\n\npublic class PrimeNumbersInRange {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int start = scanner.nextInt();\n        int end = scanner.nextInt();\n        scanner.close();\n\n        for (int i = start; i <= end; i++) {\n            if (isPrime(i)) {\n                System.out.print(i + \" \");\n            }\n        }\n    }\n\n    public static boolean isPrime(int num) {\n        if (num <= 1) return false;\n        if (num <= 3) return true;\n        if (num % 2 == 0 || num % 3 == 0) return false;\n        for (int i = 5; i * i <= num; i += 6) {\n            if (num % i == 0 || num % (i + 2) == 0) return false;\n        }\n        return true;\n    }\n}",
-    "timestamp": 1745688244.211109
+    "timestamp": 1745778508.4030612
   },
   "write-a-java-program-to-convert-a-binary-number-to-decimal-using-a-user-defined-function-day-24_java": {
     "code": "import java.util.Scanner;\n\npublic class BinaryToDecimalConverter {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String binary = scanner.nextLine();\n        scanner.close();\n        int decimal = binaryToDecimal(binary);\n        System.out.println(decimal);\n    }\n\n    public static int binaryToDecimal(String binary) {\n        int decimal = 0;\n        int length = binary.length();\n        for (int i = 0; i < length; i++) {\n            if (binary.charAt(length - 1 - i) == '1') {\n                decimal += Math.pow(2, i);\n            }\n        }\n        return decimal;\n    }\n}",
-    "timestamp": 1745688248.0042922
+    "timestamp": 1745778512.1876798
   },
   "write-a-java-program-to-convert-a-decimal-number-to-binary-using-a-user-defined-function-day-24_java": {
     "code": "import java.util.Scanner;\n\npublic class DecimalToBinaryConverter {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int decimal = scanner.nextInt();\n        String binary = decimalToBinary(decimal);\n        System.out.println(binary);\n    }\n\n    public static String decimalToBinary(int decimal) {\n        if (decimal == 0) return \"0\";\n        StringBuilder binary = new StringBuilder();\n        while (decimal > 0) {\n            binary.append(decimal % 2);\n            decimal /= 2;\n        }\n        return binary.reverse().toString();\n    }\n}",
-    "timestamp": 1745688269.4001007
+    "timestamp": 1745778533.1073039
   },
   "solid-rhombus-pattern-of-asterisks-day-20_java": {
     "code": "import java.util.Scanner;\n\npublic class SolidRhombusPattern {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        scanner.close();\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j <= n - i; j++) {\n                System.out.print(\" \");\n            }\n            for (int k = 1; k <= n; k++) {\n                System.out.print(\"*\");\n            }\n            System.out.println();\n        }\n    }\n}",
-    "timestamp": 1745688149.3953066
+    "timestamp": 1745778444.5747218
   },
   "hollow-rhombus-pattern-of-asterisks-day-20_java": {
     "code": "import java.util.Scanner;\n\npublic class HollowRhombusPattern {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        scanner.close();\n\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j <= n - i; j++) {\n                System.out.print(\" \");\n            }\n            for (int j = 1; j <= n; j++) {\n                if (i == 1 || i == n || j == 1 || j == n) {\n                    System.out.print(\"*\");\n                } else {\n                    System.out.print(\" \");\n                }\n            }\n            System.out.println();\n        }\n    }\n}",
-    "timestamp": 1745688153.3700106
+    "timestamp": 1745778452.0829606
   },
   "java-function-to-calculate-the-nth-term-of-the-fibonacci-sequence-day-21_java": {
     "code": "import java.util.Scanner;\n\npublic class FibonacciCalculator {\n    public static int calculateFibonacci(int n) {\n        if (n <= 0) return 0;\n        if (n == 1) return 1;\n        int a = 0, b = 1, c = 0;\n        for (int i = 2; i <= n; i++) {\n            c = a + b;\n            a = b;\n            b = c;\n        }\n        return c;\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int n = scanner.nextInt();\n        System.out.println(calculateFibonacci(n));\n    }\n}",
-    "timestamp": 1745688190.03982
+    "timestamp": 1745778476.4325764
   },
   "java-program-to-find-the-maximum-element-in-an-array-using-a-user-defined-function-_java": {
     "code": "import java.util.Scanner;\n\npublic class MaxElementFinder {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String input = scanner.nextLine();\n        String[] numbers = input.split(\",\\\\s*\");\n        int[] arr = new int[numbers.length];\n        for (int i = 0; i < numbers.length; i++) {\n            arr[i] = Integer.parseInt(numbers[i]);\n        }\n        System.out.println(findMax(arr));\n    }\n\n    static int findMax(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            throw new IllegalArgumentException(\"Array must not be null or empty\");\n        }\n        int max = arr[0];\n        for (int i = 1; i < arr.length; i++) {\n            if (arr[i] > max) {\n                max = arr[i];\n            }\n        }\n        return max;\n    }\n}",
-    "timestamp": 1745688274.1451437
+    "timestamp": 1745778537.0318716
   },
   "java-program-to-find-the-sum-of-elements-in-an-array-day-27_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    public static int findSum(int[] arr) {\n        int sum = 0;\n        for (int num : arr) {\n            sum += num;\n        }\n        return sum;\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String input = scanner.nextLine();\n        String[] parts = input.split(\",\\\\s*\");\n        int[] arr = new int[parts.length];\n        for (int i = 0; i < parts.length; i++) {\n            arr[i] = Integer.parseInt(parts[i]);\n        }\n        System.out.println(findSum(arr));\n    }\n}",
-    "timestamp": 1745688328.5957887
+    "timestamp": 1745778579.0562654
   },
   "java-program-to-perform-a-linear-search-for-a-given-element-in-an-array-day-28_java": {
     "code": "import java.util.Scanner;\n\npublic class LinearSearchSolution {\n    public static int linearSearch(int[] arr, int target) {\n        for (int i = 0; i < arr.length; i++) {\n            if (arr[i] == target) {\n                return i;\n            }\n        }\n        return -1;\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String[] inputArray = scanner.nextLine().split(\",\");\n        int[] arr = new int[inputArray.length];\n        for (int i = 0; i < inputArray.length; i++) {\n            arr[i] = Integer.parseInt(inputArray[i].trim());\n        }\n        int target = scanner.nextInt();\n        System.out.println(linearSearch(arr, target));\n        scanner.close();\n    }\n}",
-    "timestamp": 1745688359.8505328
+    "timestamp": 1745778603.542667
   },
   "java-program-to-perform-binary-search-on-a-sorted-array-day-28_java": {
     "code": "import java.util.Scanner;\n\npublic class BinarySearchSolution {\n    public static int binarySearch(int[] arr, int target) {\n        int left = 0;\n        int right = arr.length - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (arr[mid] == target) {\n                return mid;\n            }\n            if (arr[mid] < target) {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n        return -1;\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String[] inputArray = scanner.nextLine().split(\",\");\n        int[] arr = new int[inputArray.length];\n        for (int i = 0; i < inputArray.length; i++) {\n            arr[i] = Integer.parseInt(inputArray[i].trim());\n        }\n        int target = Integer.parseInt(scanner.nextLine().trim());\n        System.out.println(binarySearch(arr, target));\n        scanner.close();\n    }\n}",
-    "timestamp": 1745688363.7732131
+    "timestamp": 1745778607.9194858
   },
   "java-program-to-find-the-largest-subarray-sum-in-an-array-day-29_java": {
     "code": "import java.util.Scanner;\n\npublic class LargestSubarraySum {\n    public static int findLargestSubarraySum(int[] arr) {\n        int maxSoFar = arr[0];\n        int maxEndingHere = arr[0];\n        for (int i = 1; i < arr.length; i++) {\n            maxEndingHere = Math.max(arr[i], maxEndingHere + arr[i]);\n            maxSoFar = Math.max(maxSoFar, maxEndingHere);\n        }\n        return maxSoFar;\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String input = scanner.nextLine();\n        String[] inputArray = input.split(\",\\\\s*\");\n        int[] arr = new int[inputArray.length];\n        for (int i = 0; i < inputArray.length; i++) {\n            arr[i] = Integer.parseInt(inputArray[i]);\n        }\n        System.out.println(findLargestSubarraySum(arr));\n    }\n}",
-    "timestamp": 1745688390.8548598
+    "timestamp": 1745778633.0622141
   },
   "maximum-subarray-sum-in-an-array-using-kadanes-algorithm-day-30_java": {
     "code": "import java.util.Scanner;\n\npublic class Solution {\n    int findMaximumSubarraySum(int[] arr) {\n        int maxSoFar = arr[0];\n        int maxEndingHere = arr[0];\n        for (int i = 1; i < arr.length; i++) {\n            maxEndingHere = Math.max(arr[i], maxEndingHere + arr[i]);\n            maxSoFar = Math.max(maxSoFar, maxEndingHere);\n        }\n        return maxSoFar;\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String input = scanner.nextLine();\n        String[] parts = input.split(\",\\\\s*\");\n        int[] arr = new int[parts.length];\n        for (int i = 0; i < parts.length; i++) {\n            arr[i] = Integer.parseInt(parts[i]);\n        }\n        Solution solution = new Solution();\n        System.out.println(solution.findMaximumSubarraySum(arr));\n    }\n}",
-    "timestamp": 1745688419.4038725
+    "timestamp": 1745778663.8209734
+  },
+  "user-input-sum-and-product-day-3_java": {
+    "code": "import java.io.*;\nimport java.util.*;\nimport java.text.*;\nimport java.math.*;\nimport java.util.regex.*;\n// Import the Scanner class to read input\nimport java.util.Scanner; \n\npublic class Solution {\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        long a = scanner.nextLong();\n        long b = scanner.nextLong();\n        \n        long sum = a + b;\n        long product = a * b;\n        \n        // Use print() for the first value (doesn't add a newline)\n        System.out.print(sum); \n        // Add a space\n        System.out.print(\" \"); \n        // Use println() for the second value (adds a newline at the end)\n        System.out.println(product); \n        \n        scanner.close();\n    }\n}",
+    "timestamp": 1745777949.092838
+  },
+  "find-the-largest-of-two-numbers-day-8_java": {
+    "code": "import java.io.*;\nimport java.util.*;\nimport java.text.*;\nimport java.math.*;\nimport java.util.regex.*;\n// Import the Scanner class for input\nimport java.util.Scanner; \n// Import Math class (though often implicitly available)\nimport java.lang.Math;\n\npublic class Solution {\n\n    public static void main(String[] args) {\n        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */\n        \n        // 1. Create a Scanner object\n        Scanner scanner = new Scanner(System.in);\n        \n        // 2. Read the two numbers as long integers.\n        long a = scanner.nextLong();\n        long b = scanner.nextLong();\n        \n        // 3. Find the largest number using Math.max for long types.\n        long largest = Math.max(a, b);\n        \n        // 4. Print the largest number. Since it's a long, it won't have \".0\".\n        System.out.println(largest);\n        \n        // 5. Close the scanner\n        scanner.close();\n    }\n}",
+    "timestamp": 1745778065.762672
+  },
+  "find-the-largest-of-three-numbers-using-if-else-statements-day-8_java": {
+    "code": "import java.io.*;\nimport java.util.*;\nimport java.text.*;\nimport java.math.*;\nimport java.util.regex.*;\n// Import the Scanner class for input\nimport java.util.Scanner; \n\npublic class Solution {\n\n    public static void main(String[] args) {\n        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */\n        \n        // 1. Create a Scanner object\n        Scanner scanner = new Scanner(System.in);\n        \n        // 2. Read the three numbers as long integers \n        //    (based on sample input/output and constraints)\n        long a = scanner.nextLong();\n        long b = scanner.nextLong();\n        long c = scanner.nextLong();\n        \n        // 3. Variable to store the largest number\n        long largest;\n        \n        // 4. Use if-else if-else statements to find the largest\n        if (a >= b && a >= c) {\n            // If a is greater than or equal to both b and c, a is the largest\n            largest = a;\n        } else if (b >= a && b >= c) {\n            // If a wasn't the largest, check if b is greater than or equal to both a and c\n            largest = b;\n        } else {\n            // If neither a nor b were the largest, c must be the largest\n            largest = c;\n        }\n        \n        // 5. Print the largest number.\n        System.out.println(largest);\n        \n        // 6. Close the scanner\n        scanner.close();\n    }\n}",
+    "timestamp": 1745778069.5517268
+  },
+  "find-the-maximum-of-two-numbers-using-the-ternary-operator-day-10_java": {
+    "code": "import java.io.*;\nimport java.util.*;\nimport java.text.*;\nimport java.math.*;\nimport java.util.regex.*;\n// Import the Scanner class for input\nimport java.util.Scanner; \n\npublic class Solution {\n\n    public static void main(String[] args) {\n        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */\n        \n        // 1. Create a Scanner object\n        Scanner scanner = new Scanner(System.in);\n        \n        // 2. Read the two numbers as long integers\n        //    (Based on sample input/output and constraints, expecting integer output)\n        long a = scanner.nextLong();\n        long b = scanner.nextLong();\n        \n        // 3. Use the ternary operator to find the maximum\n        //    Syntax: condition ? value_if_true : value_if_false\n        //    If a >= b is true, result is a; otherwise, result is b.\n        long maximum = (a >= b) ? a : b;\n        \n        // 4. Print the maximum number.\n        System.out.println(maximum);\n        \n        // 5. Close the scanner\n        scanner.close();\n    }\n}",
+    "timestamp": 1745778124.270961
+  },
+  "calculate-income-tax-based-on-income-slabs-day-9_java": {
+    "code": "import java.util.Scanner;\n\npublic class IncomeTaxCalculator {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        double income = scanner.nextDouble();\n        scanner.close();\n        \n        double tax = calculateTax(income);\n        System.out.println(tax);\n    }\n    \n    public static double calculateTax(double income) {\n        final double SLAB_1_LIMIT = 250000;  // 2.5 lakhs\n        final double SLAB_2_LIMIT = 500000;  // 5 lakhs\n        final double SLAB_3_LIMIT = 1000000; // 10 lakhs\n        \n        final double SLAB_2_RATE = 0.05;  // 5%\n        final double SLAB_3_RATE = 0.20;  // 20%\n        final double SLAB_4_RATE = 0.30;  // 30%\n        \n        double tax = 0.0;\n        \n        if (income <= SLAB_1_LIMIT) {\n            return 0.0;\n        }\n        \n        if (income <= SLAB_2_LIMIT) {\n            tax = (income - SLAB_1_LIMIT) * SLAB_2_RATE;\n            return tax;\n        }\n        \n        if (income <= SLAB_3_LIMIT) {\n            tax = (SLAB_2_LIMIT - SLAB_1_LIMIT) * SLAB_2_RATE;\n            tax += (income - SLAB_2_LIMIT) * SLAB_3_RATE;\n            return tax;\n        }\n        \n        tax = (SLAB_2_LIMIT - SLAB_1_LIMIT) * SLAB_2_RATE;\n        tax += (SLAB_3_LIMIT - SLAB_2_LIMIT) * SLAB_3_RATE;\n        tax += (income - SLAB_3_LIMIT) * SLAB_4_RATE;\n        \n        return tax;\n    }\n}",
+    "timestamp": 1745778101.0880163
+  },
+  "write-a-java-function-to-check-if-a-given-number-is-a-palindrome-day-23_java": {
+    "code": "import java.util.Scanner;\n\nclass Solution {\n    boolean isPalindrome(int num) {\n        if (num < 0) return false;\n        int original = num, reversed = 0;\n        while (num != 0) {\n            int digit = num % 10;\n            reversed = reversed * 10 + digit;\n            num /= 10;\n        }\n        return original == reversed;\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        int num = scanner.nextInt();\n        Solution solution = new Solution();\n        System.out.println(solution.isPalindrome(num));\n    }\n}",
+    "timestamp": 1745778504.6304474
+  },
+  "write-a-java-program-to-calculate-the-area-of-a-rectangle-and-a-circle-using-function-overloading-day-27_java": {
+    "code": "import java.util.Scanner;\n\npublic class VolumeCalculator {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        double sideLength = scanner.nextDouble();\n        double radius = scanner.nextDouble();\n        String shapeType = scanner.next();\n        \n        scanner.close();\n        \n        double cubeVolume = calculateVolume(sideLength);\n        double sphereVolume = calculateVolume(radius, shapeType);\n        \n        System.out.println(cubeVolume);\n        System.out.println(sphereVolume);\n    }\n    \n    // Function to calculate volume of cube\n    public static double calculateVolume(double sideLength) {\n        return Math.pow(sideLength, 3);\n    }\n    \n    // Function to calculate volume of sphere\n    public static double calculateVolume(double radius, String shapeType) {\n        if (shapeType.equalsIgnoreCase(\"sphere\")) {\n            return (4.0 / 3.0) * Math.PI * Math.pow(radius, 3);\n        }\n        return 0.0; // Return 0 for unknown shape types\n    }\n}",
+    "timestamp": 1745778575.3235795
+  },
+  "java-program-to-find-the-second-largest-element-in-an-array-day-27_java": {
+    "code": "import java.util.Scanner;\n\npublic class SecondLargestFinder {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String input = scanner.nextLine();\n        scanner.close();\n        \n        // Parse input string to get array\n        String[] strArr = input.split(\",\\\\s*\");\n        int[] arr = new int[strArr.length];\n        \n        for (int i = 0; i < strArr.length; i++) {\n            arr[i] = Integer.parseInt(strArr[i]);\n        }\n        \n        int secondLargest = findSecondLargest(arr);\n        System.out.println(secondLargest);\n    }\n    \n    public static int findSecondLargest(int[] arr) {\n        // Handle edge cases\n        if (arr == null || arr.length < 2) {\n            throw new IllegalArgumentException(\"Array must contain at least two elements\");\n        }\n        \n        int largest = Integer.MIN_VALUE;\n        int secondLargest = Integer.MIN_VALUE;\n        \n        // First pass to find the largest\n        for (int num : arr) {\n            if (num > largest) {\n                largest = num;\n            }\n        }\n        \n        // Second pass to find the second largest\n        for (int num : arr) {\n            if (num > secondLargest && num < largest) {\n                secondLargest = num;\n            }\n        }\n        \n        // If no second largest found (all elements are equal)\n        if (secondLargest == Integer.MIN_VALUE) {\n            for (int num : arr) {\n                if (num == largest) {\n                    return largest;\n                }\n            }\n        }\n        \n        return secondLargest;\n    }\n}",
+    "timestamp": 1745778599.7246425
+  },
+  "java-program-to-reverse-an-array-day-29_java": {
+    "code": "import java.util.Scanner;\n\npublic class ArrayReverser {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String input = scanner.nextLine();\n        scanner.close();\n        \n        // Parse input string to get array\n        String[] strArr = input.split(\",\\\\s*\");\n        int[] arr = new int[strArr.length];\n        \n        for (int i = 0; i < strArr.length; i++) {\n            arr[i] = Integer.parseInt(strArr[i]);\n        }\n        \n        // Reverse the array\n        reverseArray(arr);\n        \n        // Print the reversed array\n        StringBuilder output = new StringBuilder();\n        for (int i = 0; i < arr.length; i++) {\n            output.append(arr[i]);\n            if (i < arr.length - 1) {\n                output.append(\", \");\n            }\n        }\n        \n        System.out.println(output);\n    }\n    \n    public static void reverseArray(int[] arr) {\n        int left = 0;\n        int right = arr.length - 1;\n        \n        while (left < right) {\n            // Swap elements at left and right indices\n            int temp = arr[left];\n            arr[left] = arr[right];\n            arr[right] = temp;\n            \n            // Move indices toward the center\n            left++;\n            right--;\n        }\n    }\n}",
+    "timestamp": 1745778628.9670439
   }
 }
