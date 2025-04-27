@@ -6,10 +6,11 @@ import structlog
 log = structlog.get_logger(__name__)
 
 class HackerRankSubmit:
-    def __init__(self, session, csrf_token, contest):
+    def __init__(self, session, csrf_token, contest, is_domain_type=False):
         self.session = session
         self.csrf_token = csrf_token
         self.contest = contest
+        self.is_domain_type = is_domain_type
         
     def submit(self, challenge_slug, code, language):
         headers = {
@@ -29,15 +30,25 @@ class HackerRankSubmit:
             'language': language,
             'contest_slug': self.contest,
         }
+        
+        if self.is_domain_type:
+            url = f'https://www.hackerrank.com/rest/contests/master/challenges/{challenge_slug}/submissions'
+            json_data['contest_slug'] = "master"
+            json_data['playlist_slug'] = ""
+        else:
+            url = f'https://www.hackerrank.com/rest/contests/{self.contest}/challenges/{challenge_slug}/submissions'
+        
         for i in range(3):
             try:
-                url = f'https://www.hackerrank.com/rest/contests/{self.contest}/challenges/{challenge_slug}/submissions'
                 response = self.session.post(url, headers=headers, json=json_data)
                 break
             except Exception as e:
                 log.error("Request failed", error=e)
                 time.sleep(1)
-            
+
+        if "Sorry you can't make a submission!" in response.text:
+            return False, "not allowed to submit"
+
         if not response.text.strip():
             return False, "Empty response received"
         
@@ -67,7 +78,10 @@ class HackerRankSubmit:
             for _ in range(max_checks):
                 for i in range(3):
                     try:
-                        check_url = f'https://www.hackerrank.com/rest/contests/{self.contest}/challenges/{challenge_slug}/submissions/{submission_id}?&_={time_stamp}'
+                        if self.is_domain_type:
+                            check_url = f'https://www.hackerrank.com/rest/contests/master/challenges/{challenge_slug}/submissions/{submission_id}?&_={time_stamp}'
+                        else:
+                            check_url = f'https://www.hackerrank.com/rest/contests/{self.contest}/challenges/{challenge_slug}/submissions/{submission_id}?&_={time_stamp}'
                         response = self.session.get(check_url, headers=headers)
                         break
                     except Exception as e:
@@ -77,9 +91,9 @@ class HackerRankSubmit:
                 try:
                     check_result = response.json()
                 except json.JSONDecodeError:
-                    log.error("Invalid JSON in status check", text=response.text)
-                    return False, "Invalid JSON in status check"
-                
+                    log.error("Invalid JSON response", text=response.text)
+                    return False, "Invalid JSON response"
+
                 model = check_result.get('model', {})
                 if not isinstance(model, dict):
                     log.info("Rate limit rechecking [Happens due to sending many at same time you can ignore it]")
@@ -94,7 +108,6 @@ class HackerRankSubmit:
                     time.sleep(2)
                     continue
                 elif status == 'Wrong Answer':
-                    
                     testcase_messages = model.get('testcase_message', [])
                     testcase_status = model.get('testcase_status', [])
                     compile_message = model.get('compile_message', '')

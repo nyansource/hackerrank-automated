@@ -1,23 +1,23 @@
 {
   "arrays-ds_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint* reverseArray(int* A, int N) {\n    for(int i = 0; i < N/2; i++) {\n        int temp = A[i];\n        A[i] = A[N - i - 1];\n        A[N - i - 1] = temp;\n    }\n    return A;\n}\n\nint main() {\n    int N;\n    scanf(\"%d\", &N);\n    int *A = (int *)malloc(N * sizeof(int));\n    for(int i = 0; i < N; i++) {\n        scanf(\"%d\", &A[i]);\n    }\n    int *reversed = reverseArray(A, N);\n    for(int i = 0; i < N; i++) {\n        printf(\"%d\", reversed[i]);\n        if(i != N -1) printf(\" \");\n    }\n    free(A);\n    return 0;\n}",
-    "timestamp": 1745688768.8846712
+    "timestamp": 1745745354.1731517
   },
   "c-tutorial-basic-data-types_cpp": {
     "code": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    int intValue;\n    long longValue;\n    char charValue;\n    float floatValue;\n    double doubleValue;\n\n    cin >> intValue >> longValue >> charValue >> floatValue >> doubleValue;\n    \n    cout << intValue << endl;\n    cout << longValue << endl;\n    cout << charValue << endl;\n    cout << fixed << setprecision(3) << floatValue << endl;\n    cout << fixed << setprecision(9) << doubleValue << endl;\n\n    return 0;\n}",
-    "timestamp": 1745688481.5229075
+    "timestamp": 1745745358.0394363
   },
   "2d-array_c": {
     "code": "#include <stdio.h>\n\nint hourglassSum(int arr[6][6]) {\n    int max_sum = -63; // Minimum possible hourglass sum based on constraints\n    for (int i = 0; i < 4; i++) {\n        for (int j = 0; j < 4; j++) {\n            int current_sum = arr[i][j] + arr[i][j+1] + arr[i][j+2] +\n                              arr[i+1][j+1] +\n                              arr[i+2][j] + arr[i+2][j+1] + arr[i+2][j+2];\n            if (current_sum > max_sum) {\n                max_sum = current_sum;\n            }\n        }\n    }\n    return max_sum;\n}\n\nint main() {\n    int arr[6][6];\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            scanf(\"%d\", &arr[i][j]);\n        }\n    }\n    int result = hourglassSum(arr);\n    printf(\"%d\\n\", result);\n    return 0;\n}",
-    "timestamp": 1745688483.6723282
+    "timestamp": 1745745361.7918828
   },
   "dynamic-array_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    int n, q;\n    scanf(\"%d %d\", &n, &q);\n    int **arr = (int **)malloc(n * sizeof(int*));\n    int *size = (int*)calloc(n, sizeof(int));\n    int *capacity = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        capacity[i] = 4;\n        arr[i] = (int*)malloc(capacity[i] * sizeof(int));\n    }\n    int lastAnswer = 0;\n    int *answers = (int*)malloc(q * sizeof(int));\n    int answerCount = 0;\n    for (int i = 0; i < q; i++) {\n        int type, x, y;\n        scanf(\"%d %d %d\", &type, &x, &y);\n        int idx = (x ^ lastAnswer) % n;\n        if (type == 1) {\n            if (size[idx] == capacity[idx]) {\n                capacity[idx] *= 2;\n                arr[idx] = (int*)realloc(arr[idx], capacity[idx] * sizeof(int));\n            }\n            arr[idx][size[idx]] = y;\n            size[idx]++;\n        } else {\n            int pos = y % size[idx];\n            lastAnswer = arr[idx][pos];\n            answers[answerCount++] = lastAnswer;\n        }\n    }\n    for (int i = 0; i < answerCount; i++) {\n        printf(\"%d\\n\", answers[i]);\n    }\n    for (int i = 0; i < n; i++) {\n        free(arr[i]);\n    }\n    free(arr);\n    free(size);\n    free(capacity);\n    free(answers);\n    return 0;\n}",
-    "timestamp": 1745688487.4815407
+    "timestamp": 1745745365.6229942
   },
   "array-left-rotation_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint* rotateLeft(int d, int arr[], int n) {\n    int *result = (int*) malloc(n * sizeof(int));\n    int rot = d % n;\n    for (int i = 0; i < n; i++) {\n        result[i] = arr[(i + rot) % n];\n    }\n    return result;\n}\n\nint main() {\n    int n, d;\n    scanf(\"%d %d\", &n, &d);\n    int *arr = (int*) malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    int *rotated_arr = rotateLeft(d, arr, n);\n    for (int i = 0; i < n; i++) {\n        printf(\"%d\", rotated_arr[i]);\n        if (i != n - 1) printf(\" \");\n    }\n    printf(\"\\n\");\n    free(arr);\n    free(rotated_arr);\n    return 0;\n}",
-    "timestamp": 1745688491.172861
+    "timestamp": 1745745369.3237543
   },
   "frequency-of-digits-1_c": {
     "code": "#include <stdio.h>\n\nint main() {\n    char num[1001];\n    int freq[10] = {0};\n    \n    scanf(\"%s\", num);\n    \n    for (int i = 0; num[i] != '\\0'; i++) {\n        if (num[i] >= '0' && num[i] <= '9') {\n            freq[num[i] - '0']++;\n        }\n    }\n    \n    for (int i = 0; i < 10; i++) {\n        printf(\"%d \", freq[i]);\n    }\n    \n    return 0;\n}",

@@ -7,10 +7,12 @@ import structlog
 log = structlog.get_logger(__name__)
 
 class Reciever:
-    def __init__(self, session, csrf_token, contest):
+    def __init__(self, session, csrf_token, contest, is_domain_type=False):
         self.session = session
         self.csrf_token = csrf_token
         self.contest = contest
+        self.is_domain_type = is_domain_type
+
 
     def generate_request_id(self):
         return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
@@ -36,30 +38,36 @@ class Reciever:
             'x-request-unique-id': self.generate_request_id(),
             'x-requested-with': 'XMLHttpRequest',
         }
+        
+        if self.is_domain_type:
+            url = f'https://www.hackerrank.com/rest/contests/master/challenges/{slug}?&_={timestamp}'
+        else:
+            url = f'https://www.hackerrank.com/rest/contests/{self.contest}/challenges/{slug}?&_={timestamp}'
+            
         for i in range(3):
             try:
-                url = f'https://www.hackerrank.com/rest/contests/{self.contest}/challenges/{slug}?&_={timestamp}'
                 response = self.session.get(url, headers=headers)
                 break
             except Exception as e:
                 log.error("Request failed", error=e)
                 time.sleep(1)
         
+        if "Not Found" in response.text:
+            log.error("Challenge not found", slug=slug)
+            return None
+
         if "accept your submission right now" in response.text:
             log.info("Rate limited, trying again in 10 seconds")
             time.sleep(10)
             return self.get_challenge(slug)
         
-        
         if response.status_code == 200:
             log.info("Challenge", name=response.json()['model']['name'], difficulty=response.json()['model']['difficulty_name'], solved_by=response.json()['model']['solved_count'])
-           
             return response.json()
         
         if response.status_code == 429:
             log.info("Rate limited, trying again in 15 seconds")
             time.sleep(15)
             return self.get_challenge(slug)
-        
         
         return None

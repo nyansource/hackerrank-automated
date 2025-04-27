@@ -15,11 +15,11 @@ log = structlog.get_logger(__name__)
 test_mode = False
 
 
-def solve_challenge(challenge, session, csrf_token, contest, ai, solutions):
+def solve_challenge(challenge, session, csrf_token, contest, ai, solutions , domain_type):
     challenge_slug = challenge['slug']
     log.info("Processing challenge", slug=challenge_slug)
     
-    rec = Reciever(session, csrf_token, contest)
+    rec = Reciever(session, csrf_token, contest, is_domain_type=domain_type)
     _ = rec.get_challenge(challenge_slug)
     challenge_info = extract_challenge_info(_)
     language = challenge_info['languages']
@@ -33,7 +33,7 @@ def solve_challenge(challenge, session, csrf_token, contest, ai, solutions):
     else:
         solution_code = None
     
-    submitter = HackerRankSubmit(session, csrf_token, contest)
+    submitter = HackerRankSubmit(session, csrf_token, contest, is_domain_type=domain_type)
     max_retries = 2
     retry_count = 0
     
@@ -108,6 +108,7 @@ def process_contest(contest, user, session, csrf_token):
     solutions = SolutionManager()
     try:
         challenges = fetch.fetch_challenges()
+        domain_type = fetch.is_domain_type
     except Exception as e:
         log.error(f"Error fetching challenges: {str(e)}")
         return
@@ -122,7 +123,7 @@ def process_contest(contest, user, session, csrf_token):
     
     for challenge in challenges:
         try:
-            success, reason = solve_challenge(challenge, session, csrf_token, contest, ai, solutions)
+            success, reason = solve_challenge(challenge, session, csrf_token, contest, ai, solutions, domain_type)
             if success:
                 if "Reused" in reason:
                     reused += 1
@@ -143,12 +144,14 @@ def process_contest(contest, user, session, csrf_token):
              total=len(challenges))
 
 def main():
-    contests = ["100dayscodingchallenge" , "java-mystery-phase-1"]   # <- add the end of the url to the contests list  
+    contests = ["100dayscodingchallenge"]   # <- add the end of the url to the contests list  
     #DS
     # ●https://www.hackerrank.com/100dayscodingchallenge
     # JAVA
     # ●https://www.hackerrank.com/java-mystery-phase-1
     # basically add the end of the url to the contests list 
+    # or example https://www.hackerrank.com/domains/data-structures
+    # for that add data-structures to the contests list
     
     if len(sys.argv) > 1:
         cookie_file = sys.argv[1]

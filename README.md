@@ -1,24 +1,11 @@
 # HackerRank Automated Challenge Solver
 
-A high-performance automation tool for solving HackerRank coding challenges. Built with Python, this tool leverages AI to generate and submit solutions while maintaining session state and caching mechanisms.
-I made it as was lazy to manually do that. 
+A tool for solving HackerRank coding challenges using AI. I made it as was lazy to manually do that.
 
 ## Contact
 
 For questions, issues, or contributions:
 - Email: nyansourcesigma@gmail.com
-
-## Technical Overview
-
-- Concurrent challenge processing with ThreadPoolExecutor
-- Structured logging with structlog
-- Cookie-based session management with CSRF token handling
-- Solution caching with JSON persistence
-- AI-powered solution generation with retry mechanisms
-- Challenge information extraction and parsing
-- Automated submission with error handling
-- Multi-contest support with dynamic URL parsing
-- Comprehensive error tracking and statistics
 
 ## System Requirements
 
@@ -26,6 +13,11 @@ For questions, issues, or contributions:
 - pip
 - Internet connection
 - HackerRank account (optional)
+
+### OS Compatibility
+- **Linux (Recommended)**: Fully tested on Arch Linux
+- **Windows**: May need changes
+- **macOS**: Untested, may need modifications
 
 ## Installation
 
@@ -48,6 +40,9 @@ contests = ["100dayscodingchallenge", "java-mystery-phase-1"]
 Add the contest slug from the HackerRank URL. For example:
 - URL: https://www.hackerrank.com/100dayscodingchallenge
 - Slug: "100dayscodingchallenge"
+or
+- URL : https://www.hackerrank.com/domains/data-structures
+- Slug: "data-structures"
 
 ### 2. Using Existing Account
 
@@ -77,16 +72,16 @@ If you don't provide cookies, the tool will:
 2. Save account details to `account_cookies.json`
 3. Use the account for future runs
 
-### 4. Customizing Retry Behavior
+### 4. Customization Options
 
+#### Retry Behavior
 In `main.py`, modify the retry parameters:
 ```python
 max_retries = 2  # Number of retry attempts
 time.sleep(2)    # Delay between retries
 ```
 
-### 5. Test Mode
-
+#### Test Mode
 Enable test mode in `main.py`:
 ```python
 test_mode = True  # Set to True for testing
@@ -97,132 +92,59 @@ Test mode will:
 - Skip actual submissions
 - Log all actions
 
-### 6. Solution Cache
-
-Solutions are cached in `solutions.json`. 
-
-### 7. Error Handling
-
-The tool handles various errors:
-- Wrong answers
-- Runtime errors
-- Compilation errors
-- Timeouts
-- Network issues
-
-Each error triggers a retry with error-specific solution generation.
-
-### 8. Logging
-
-Logs are structured and include:
-- Challenge processing status
-- Solution generation attempts
-- Submission results
-- Error details
-
-## Core Components
-
-### Main Module (`main.py`)
-- Entry point for the application
-- Manages contest processing and challenge solving
-- Handles account creation and session management
-- Implements retry logic for failed submissions
-- Supports multiple contest URLs (e.g., "100dayscodingchallenge", "java-mystery-phase-1")
-- Dynamic contest URL parsing from HackerRank URLs
-- Challenge statistics tracking (solved, failed, reused)
-- Comprehensive error handling and logging
-
-### Utility Modules
-- `register.py`: Account registration and management
-- `fetch.py`: Challenge retrieval and parsing
-- `submit.py`: Solution submission and verification
-- `ai.py`: AI solution generation
-- `parse.py`: Challenge information extraction
-- `solutions.py`: Solution caching and management
-- `getchallenge.py`: Challenge data retrieval
-
-## Usage
-
-### Basic Execution
-```bash
-python main.py
+#### Email Domains
+In `register.py`, modify the email domains:
+```python
+domains = ["rescueteam.com", "fastmail.com", "protonmail.com", "tmail.com"]
 ```
 
-### Using Existing Account
-```bash
-python main.py path/to/cookies.json
+#### Request Handling
+In `register.py`, modify the request settings:
+```python
+self.session = requests.Session(impersonate="chrome131" if os.name == "posix" else "chrome124")
 ```
 
-### Cookie Format
-```json
-{
-    "username": "string",
-    "email": "string",
-    "password": "string",
-    "cookies": {
-        "cookie1": "string",
-        "other_cookie": "string"
-    },
-    "csrf_token": "string"
-}
+#### Solution Cache
+Solutions are cached in `solutions.json`. You can:
+- Clear the cache by deleting the file
+- Modify cache behavior in `solutions.py`
+- Change cache file location in `solutions.py`
+
+#### Logging
+In `main.py`, modify logging levels:
+```python
+import structlog
+log = structlog.get_logger(__name__)
 ```
 
-## Technical Implementation
+#### Challenge Processing
+In `main.py`, modify processing parameters:
+```python
+max_workers = 5  # Number of concurrent workers
+challenge_batch_size = 10  # Number of challenges to process in parallel
+```
 
-### Contest Management
-- Supports multiple contest URLs
-- Extracts contest slugs from full HackerRank URLs
-- Example contest URLs:
-  - https://www.hackerrank.com/100dayscodingchallenge
-  - https://www.hackerrank.com/java-mystery-phase-1
-- Sequential contest processing with error isolation
+#### AI Model
+In `utils/ai.py`, modify the AI model:
+```python
+response = self.client.chat.completions.create(
+    model="qwen-2.5-coder-32b", # you can change it if you want to
+    messages=[{"role": "user", "content": prompt}],
+    web_search=False,
+)
+```
 
-### Session Management
-- Automatic account registration if no cookies provided
-- Cookie persistence in `account_cookies.json`
-- CSRF token handling for secure submissions
-- Session state maintenance across requests
-- Cookie validation and error handling
-- Support for multiple account configurations
+## Technical Overview
 
-### Challenge Processing
-1. Fetches available challenges from specified contests
-2. Extracts challenge information and requirements
-3. Checks solution cache for existing implementations
-4. Generates new solutions using AI if needed
-5. Submits solutions with error handling
-6. Implements retry mechanism for failed submissions
-7. Tracks challenge statistics (solved, failed, reused)
-
-### Error Handling
-- Compilation errors
-- Runtime errors
-- Wrong answers
-- Timeout issues
-- Network errors
-- Cookie validation errors
-- JSON parsing errors
-- Challenge fetch errors
-- Solution generation failures
-- Submission failures
-
-### Performance Optimizations
-- Solution caching to avoid redundant generation
-- Concurrent processing of challenges
-- Efficient session management
-- Structured logging for debugging
-- Cookie persistence for faster subsequent runs
-- Retry mechanism with configurable attempts
-- Error-based solution regeneration
-
-## Configuration
-
-Modify `main.py` to adjust:
-- Contest list (add contest slugs from HackerRank URLs)
-- Retry attempts (default: 2)
-- Test mode (default: False)
-- Logging levels
-- Challenge processing parameters
+- Concurrent challenge processing with ThreadPoolExecutor
+- Structured logging with structlog
+- Cookie-based session management with CSRF token handling
+- Solution caching with JSON persistence
+- AI-powered solution generation with retry mechanisms
+- Challenge information extraction and parsing
+- Automated submission with error handling
+- Multi-contest support with dynamic URL parsing
+- Comprehensive error tracking and statistics
 
 ## Project Structure
 ```
