@@ -124,6 +124,33 @@ response = self.client.chat.completions.create(
 )
 ```
 
+## Testing and Learning
+
+You can run individual modules for testing and learning:
+
+### AI Testing
+```bash
+python utils/ai.py
+```
+This will run a test challenge to see how the AI generates solutions.
+
+### Challenge Fetching
+```python
+from utils.fetch import HackerRankFetch
+fetch = HackerRankFetch(session, csrf_token, "data-structures")
+challenges = fetch.fetch_challenges()
+```
+
+
+
+### Account Management
+```python
+from utils.register import HackerRank
+user = HackerRank(contest="data-structures")
+user.register()
+```
+
+
 ## Technical Overview
 
 - Structured logging with structlog

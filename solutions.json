@@ -1,15 +1,15 @@
 {
   "arrays-ds_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint* reverseArray(int* A, int N) {\n    for(int i = 0; i < N/2; i++) {\n        int temp = A[i];\n        A[i] = A[N - i - 1];\n        A[N - i - 1] = temp;\n    }\n    return A;\n}\n\nint main() {\n    int N;\n    scanf(\"%d\", &N);\n    int *A = (int *)malloc(N * sizeof(int));\n    for(int i = 0; i < N; i++) {\n        scanf(\"%d\", &A[i]);\n    }\n    int *reversed = reverseArray(A, N);\n    for(int i = 0; i < N; i++) {\n        printf(\"%d\", reversed[i]);\n        if(i != N -1) printf(\" \");\n    }\n    free(A);\n    return 0;\n}",
-    "timestamp": 1745745354.1731517
+    "timestamp": 1745746543.856122
   },
   "c-tutorial-basic-data-types_cpp": {
     "code": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    int intValue;\n    long longValue;\n    char charValue;\n    float floatValue;\n    double doubleValue;\n\n    cin >> intValue >> longValue >> charValue >> floatValue >> doubleValue;\n    \n    cout << intValue << endl;\n    cout << longValue << endl;\n    cout << charValue << endl;\n    cout << fixed << setprecision(3) << floatValue << endl;\n    cout << fixed << setprecision(9) << doubleValue << endl;\n\n    return 0;\n}",
-    "timestamp": 1745745358.0394363
+    "timestamp": 1745746547.475159
   },
   "2d-array_c": {
     "code": "#include <stdio.h>\n\nint hourglassSum(int arr[6][6]) {\n    int max_sum = -63; // Minimum possible hourglass sum based on constraints\n    for (int i = 0; i < 4; i++) {\n        for (int j = 0; j < 4; j++) {\n            int current_sum = arr[i][j] + arr[i][j+1] + arr[i][j+2] +\n                              arr[i+1][j+1] +\n                              arr[i+2][j] + arr[i+2][j+1] + arr[i+2][j+2];\n            if (current_sum > max_sum) {\n                max_sum = current_sum;\n            }\n        }\n    }\n    return max_sum;\n}\n\nint main() {\n    int arr[6][6];\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            scanf(\"%d\", &arr[i][j]);\n        }\n    }\n    int result = hourglassSum(arr);\n    printf(\"%d\\n\", result);\n    return 0;\n}",
-    "timestamp": 1745745361.7918828
+    "timestamp": 1745746551.2306957
   },
   "dynamic-array_c": {
     "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    int n, q;\n    scanf(\"%d %d\", &n, &q);\n    int **arr = (int **)malloc(n * sizeof(int*));\n    int *size = (int*)calloc(n, sizeof(int));\n    int *capacity = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        capacity[i] = 4;\n        arr[i] = (int*)malloc(capacity[i] * sizeof(int));\n    }\n    int lastAnswer = 0;\n    int *answers = (int*)malloc(q * sizeof(int));\n    int answerCount = 0;\n    for (int i = 0; i < q; i++) {\n        int type, x, y;\n        scanf(\"%d %d %d\", &type, &x, &y);\n        int idx = (x ^ lastAnswer) % n;\n        if (type == 1) {\n            if (size[idx] == capacity[idx]) {\n                capacity[idx] *= 2;\n                arr[idx] = (int*)realloc(arr[idx], capacity[idx] * sizeof(int));\n            }\n            arr[idx][size[idx]] = y;\n            size[idx]++;\n        } else {\n            int pos = y % size[idx];\n            lastAnswer = arr[idx][pos];\n            answers[answerCount++] = lastAnswer;\n        }\n    }\n    for (int i = 0; i < answerCount; i++) {\n        printf(\"%d\\n\", answers[i]);\n    }\n    for (int i = 0; i < n; i++) {\n        free(arr[i]);\n    }\n    free(arr);\n    free(size);\n    free(capacity);\n    free(answers);\n    return 0;\n}",

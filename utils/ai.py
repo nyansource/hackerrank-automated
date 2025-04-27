@@ -119,14 +119,15 @@ class HackerRankAI:
             log.info("Generated solution", language=language, time=time.time() - start_time)
             return solution_code
         except Exception as e:
-            log.error("Failed to generate solution", error=str(e))
-            if "502" in str(e):
+            if "502" in str(e) or "Response 400: 400 Bad Request" in str(e):
                 log.info("Retrying due to 502 error")
                 time.sleep(5)
                 return self.generate_solution(challenge_info, language, retried, old_code, error_reason)
+            else:
+                log.error("Failed to generate solution", error=str(e))
             return None
         
 
 if __name__ == "__main__":
     ai = HackerRankAI()
-    ai.generate_solution("make a function that takes a string and returns the string in reverse", "java")
+    print(ai.generate_solution("make a function that takes a string and returns the string in reverse", "java"))
