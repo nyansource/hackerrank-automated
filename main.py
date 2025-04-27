@@ -34,7 +34,7 @@ def solve_challenge(challenge, session, csrf_token, contest, ai, solutions , dom
         solution_code = None
     
     submitter = HackerRankSubmit(session, csrf_token, contest, is_domain_type=domain_type)
-    max_retries = 2
+    max_retries = 3
     retry_count = 0
     
     while retry_count < max_retries:
@@ -152,7 +152,7 @@ def main():
     # basically add the end of the url to the contests list 
     # or example https://www.hackerrank.com/domains/data-structures
     # for that add data-structures to the contests list
-    
+
     if len(sys.argv) > 1:
         cookie_file = sys.argv[1]
         try:

@@ -8,8 +8,14 @@ class HackerRankAI:
     def __init__(self):
         self.client = Client(provider = g4f.Provider.PollinationsAI)
     
-    def generate_solution(self, challenge_info, language , retried = None , old_code = None , error_reason = None):
+    def generate_solution(self, challenge_info, language , retried = None , old_code = None , error_reason = None , retries_left = 5):
         start_time = time.time()
+        if retries_left == 0:
+            log.error("Max retries reached", language=language)
+            return None
+        
+        retries_left -= 1
+        
         """
         Generate a solution for a HackerRank challenge.
         
@@ -19,6 +25,7 @@ class HackerRankAI:
             retried (bool): Whether the solution has been retried
             old_code (str): The old code that didn't work
             error_reason (dict): Detailed error information
+            retries_left (int): Number of retries remaining
             
         Returns:
             str: Generated solution code
@@ -101,7 +108,7 @@ class HackerRankAI:
             response = self.client.chat.completions.create(
                 model="qwen-2.5-coder-32b",
                 messages=[{"role": "user", "content": prompt}],
-                web_search=False,
+                web_search=True,
             )
             solution_code = response.choices[0].message.content.strip()
             
@@ -116,15 +123,16 @@ class HackerRankAI:
                 cleaned_lines.append(line.rstrip())
             solution_code = "\n".join(cleaned_lines)
             
-            log.info("Generated solution", language=language, time=time.time() - start_time)
+            log.info("Generated solution", language=language, time=time.time() - start_time, retries_left=retries_left)
             return solution_code
         except Exception as e:
             if "502" in str(e) or "Response 400: 400 Bad Request" in str(e):
-                log.info("Retrying due to 502 error")
+                challenge_info["body_html"] = "NOT FETCHED"
+                log.info("Retrying due to error", error=str(e), retries_left=retries_left)
                 time.sleep(5)
-                return self.generate_solution(challenge_info, language, retried, old_code, error_reason)
+                return self.generate_solution(challenge_info, language, retried, old_code, error_reason, retries_left)
             else:
-                log.error("Failed to generate solution", error=str(e))
+                log.error("Failed to generate solution", error=str(e), retries_left=retries_left)
             return None
         
 
