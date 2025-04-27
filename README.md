@@ -105,23 +105,13 @@ self.session = requests.Session(impersonate="chrome131" if os.name == "posix" el
 ```
 
 #### Solution Cache
-Solutions are cached in `solutions.json`. You can:
-- Clear the cache by deleting the file
-- Modify cache behavior in `solutions.py`
-- Change cache file location in `solutions.py`
+Solutions are automatically cached in `solutions.json` for future use.
 
 #### Logging
 In `main.py`, modify logging levels:
 ```python
 import structlog
 log = structlog.get_logger(__name__)
-```
-
-#### Challenge Processing
-In `main.py`, modify processing parameters:
-```python
-max_workers = 5  # Number of concurrent workers
-challenge_batch_size = 10  # Number of challenges to process in parallel
 ```
 
 #### AI Model
@@ -136,7 +126,6 @@ response = self.client.chat.completions.create(
 
 ## Technical Overview
 
-- Concurrent challenge processing with ThreadPoolExecutor
 - Structured logging with structlog
 - Cookie-based session management with CSRF token handling
 - Solution caching with JSON persistence
@@ -144,7 +133,7 @@ response = self.client.chat.completions.create(
 - Challenge information extraction and parsing
 - Automated submission with error handling
 - Multi-contest support with dynamic URL parsing
-- Comprehensive error tracking and statistics
+- Error tracking and statistics
 
 ## Project Structure
 ```
